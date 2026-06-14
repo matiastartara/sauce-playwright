@@ -1,0 +1,9 @@
+services:
+  playwright-tests:
+    build: .
+    container_name: saucedemo-tests
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+    # This allows reports generated inside the container
+    # to be saved to your local machine.
