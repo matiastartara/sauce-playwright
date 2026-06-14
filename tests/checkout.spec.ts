@@ -40,7 +40,7 @@ test.describe('Sauce demo checkout test', () => {
 
     expect(CartProductName).toBe(name);
     expect(CartProductPrice).toBe(price);
-  })
+  });
 
   test('Item can be removed from cart', async ({ page, loginPage }) => {
     await loginPage.goTo();
@@ -58,7 +58,7 @@ test.describe('Sauce demo checkout test', () => {
 
     console.log(`Final cart count after removal: ${finalCartCount}`);
     expect(finalCartCount).toBe(initialCartCount - 1);
-  })
+  });
 
   test('Cart items persist after page reload', async ({ page, loginPage }) => {
     await loginPage.goTo();
@@ -66,12 +66,11 @@ test.describe('Sauce demo checkout test', () => {
     await expect(page).toHaveURL(/inventory.html/);
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.addRandomProductToCart();
-    
+
     expect(await inventoryPage.isCartBadgeVisible()).toBeTruthy();
     expect(await inventoryPage.getCartBadgeCount()).toBe(1);
     await page.reload();
     expect(await inventoryPage.isCartBadgeVisible()).toBeTruthy();
     expect(await inventoryPage.getCartBadgeCount()).toBe(1);
-  })
-
+  });
 });

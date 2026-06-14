@@ -25,6 +25,6 @@ test.describe('Sauce demo login tests', () => {
     await loginPage.goTo();
     await loginPage.login('standard_user', '');
     const errorMessage = await loginPage.getErrorMessage();
-    expect(errorMessage).toContain('Password is required'); 
-  })
+    expect(errorMessage).toContain('Password is required');
+  });
 });
