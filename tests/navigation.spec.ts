@@ -31,7 +31,6 @@ test.describe('Sauce demo navigation test', () => {
         await navigationMenu.openMenu();
         await navigationMenu.navigateToAllItems();
         await expect(inventoryPage.inventoryItems).toHaveCount(6);
-        await expect(inventoryPage.inventoryItems).toHaveCount(6);
         await expect(inventoryPage.addToCartButton).toBeVisible();
     });
 
