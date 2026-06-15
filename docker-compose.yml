@@ -2,6 +2,8 @@ services:
   playwright-tests:
     build: .
     container_name: saucedemo-tests
+    env_file:
+      - .env
     volumes:
       - ./playwright-report:/app/playwright-report
       - ./test-results:/app/test-results

@@ -97,16 +97,45 @@ npx playwright show-report
 
 This project includes Docker support, allowing tests to be run in an isolated and consistent environment.
 
-### Build the image
+### Run with Docker Compose (Recommended)
 
+Docker Compose simplifies container management, handles environment variables, and automatically syncs reports to your host machine.
+
+Build and run tests:
+```bash
+docker compose up --build
+```
+
+Run tests and automatically remove the container when done:
+```bash
+docker compose run --rm --build playwright-tests
+```
+
+Clean up containers created by `up`:
+```bash
+docker compose down
+```
+
+### Manual Docker Commands
+
+Build the image manually:
 ```bash
 docker build -t saucedemo-playwright .
 ```
 
-### Run tests in Docker
-
+Run tests manually:
 ```bash
 docker run --rm saucedemo-playwright
 ```
 
-The container will automatically run all tests and show the results in the terminal.
+### Clean up Docker resources
+
+Delete the built image:
+```bash
+docker rmi sauce-playwright
+```
+
+Clean up all unused containers, networks, images, and cache:
+```bash
+docker system prune
+```
