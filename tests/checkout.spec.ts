@@ -2,13 +2,16 @@ import { test, expect } from '../fixtures/baseFixture';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
 import { InventoryPage } from '../pages/InventoryPage';
+import { loginData } from '../data/loginData';
 
 test.describe('Sauce demo checkout test', () => {
-  test('Successful E2E purchase', async ({ page, loginPage }) => {
+  test.beforeEach(async ({ loginPage, page }) => {
     await loginPage.goTo();
-    await loginPage.login('standard_user', 'secret_sauce');
+    await loginPage.login(loginData.validUser.username, loginData.validUser.password);
     await expect(page).toHaveURL(/inventory.html/);
+  });
 
+  test('Successful E2E purchase', async ({ page }) => {
     const cartPage = new CartPage(page);
     const inventoryPage = new InventoryPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -24,11 +27,7 @@ test.describe('Sauce demo checkout test', () => {
     expect(confirmationMessage).toContain('Thank you for your order!');
   });
 
-  test('Card reflects correct name and price', async ({ page, loginPage }) => {
-    await loginPage.goTo();
-    await loginPage.login('standard_user', 'secret_sauce');
-    await expect(page).toHaveURL(/inventory.html/);
-
+  test('Card reflects correct name and price', async ({ page }) => {
     const cartPage = new CartPage(page);
     const inventoryPage = new InventoryPage(page);
     const { name, price } = await inventoryPage.addRandomProductToCart();
@@ -42,11 +41,7 @@ test.describe('Sauce demo checkout test', () => {
     expect(CartProductPrice).toBe(price);
   });
 
-  test('Item can be removed from cart', async ({ page, loginPage }) => {
-    await loginPage.goTo();
-    await loginPage.login('standard_user', 'secret_sauce');
-    await expect(page).toHaveURL(/inventory.html/);
-
+  test('Item can be removed from cart', async ({ page }) => {
     const cartPage = new CartPage(page);
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.addRandomProductToCart();
@@ -60,10 +55,7 @@ test.describe('Sauce demo checkout test', () => {
     expect(finalCartCount).toBe(initialCartCount - 1);
   });
 
-  test('Cart items persist after page reload', async ({ page, loginPage }) => {
-    await loginPage.goTo();
-    await loginPage.login('standard_user', 'secret_sauce');
-    await expect(page).toHaveURL(/inventory.html/);
+  test('Cart items persist after page reload', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.addRandomProductToCart();
 
