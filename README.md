@@ -87,10 +87,23 @@ Run tests in UI mode:
 npx playwright test --ui
 ```
 
-Generate test report:
+Generate HTML test report:
 
 ```bash
 npx playwright show-report
+```
+
+Generate Allure test report:
+
+```bash
+# Serve and open the Allure report immediately:
+npx allure serve allure-results
+
+# Or generate the static HTML report folder:
+npx allure generate allure-results --clean -o allure-report
+
+# Open the generated static Allure report:
+npx allure open allure-report
 ```
 
 ## 🐳 Docker

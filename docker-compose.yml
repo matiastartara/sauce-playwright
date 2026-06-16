@@ -7,5 +7,6 @@ services:
     volumes:
       - ./playwright-report:/app/playwright-report
       - ./test-results:/app/test-results
+      - ./allure-results:/app/allure-results
     # This allows reports generated inside the container
     # to be saved to your local machine.
