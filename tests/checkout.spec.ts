@@ -11,7 +11,7 @@ test.describe('Sauce demo checkout test', () => {
     await expect(page).toHaveURL(/inventory.html/);
   });
 
-  test('Successful E2E purchase', async ({ page }) => {
+  test('Successful E2E purchase @regression', async ({ page }) => {
     const cartPage = new CartPage(page);
     const inventoryPage = new InventoryPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -27,7 +27,7 @@ test.describe('Sauce demo checkout test', () => {
     expect(confirmationMessage).toContain('Thank you for your order!');
   });
 
-  test('Card reflects correct name and price', async ({ page }) => {
+  test('Card reflects correct name and price @regression', async ({ page }) => {
     const cartPage = new CartPage(page);
     const inventoryPage = new InventoryPage(page);
     const { name, price } = await inventoryPage.addRandomProductToCart();
@@ -41,7 +41,7 @@ test.describe('Sauce demo checkout test', () => {
     expect(CartProductPrice).toBe(price);
   });
 
-  test('Item can be removed from cart', async ({ page }) => {
+  test('Item can be removed from cart @regression', async ({ page }) => {
     const cartPage = new CartPage(page);
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.addRandomProductToCart();

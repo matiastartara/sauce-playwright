@@ -87,6 +87,47 @@ Run tests in UI mode:
 npx playwright test --ui
 ```
 
+### 🏷️ Running Tests by Tag
+
+Tests are annotated with tags to allow selective execution. The currently supported tags are:
+
+| Tag | Description |
+|-----|-------------|
+| `@smoke` | Critical path tests that validate core functionality |
+| `@regression` | Full regression suite covering all test scenarios |
+
+Run only **smoke** tests:
+
+```bash
+npx playwright test --grep @smoke
+```
+
+Run only **regression** tests:
+
+```bash
+npx playwright test --grep @regression
+```
+
+> [!NOTE]
+> Tags are defined inside each test using Playwright's `tag` option, for example:
+> ```typescript
+> test('login with valid credentials', { tag: '@smoke' }, async ({ page }) => { ... });
+> ```
+
+### 📂 Projects (Coming Soon)
+
+We plan to add dedicated **projects** to the Playwright configuration to differentiate between **UI tests** and **API tests**, allowing independent execution of each layer:
+
+```bash
+# Run only UI tests (coming soon)
+npx playwright test --project=ui
+
+# Run only API tests (coming soon)
+npx playwright test --project=api
+```
+
+This section will be updated once the project configuration is in place.
+
 Generate HTML test report:
 
 ```bash

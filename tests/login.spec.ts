@@ -6,13 +6,13 @@ test.describe('Sauce demo login tests', () => {
     await loginPage.goTo();
   });
 
-  test('Unsuccessful login', async ({ loginPage }) => {
+  test('Unsuccessful login @smoke', async ({ loginPage }) => {
     await loginPage.login(loginData.invalidUser.username, loginData.invalidUser.password);
     const errorMessage = await loginPage.getErrorMessage();
     expect(errorMessage).toContain('Username and password do not match any user in this service');
   });
 
-  test('Successful login', async ({ loginPage, page }) => {
+  test('Successful login @smoke', async ({ loginPage, page }) => {
     await loginPage.login(loginData.validUser.username, loginData.validUser.password);
     await expect(page).toHaveURL(/inventory.html/);
   });
