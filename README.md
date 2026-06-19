@@ -114,19 +114,22 @@ npx playwright test --grep @regression
 > test('login with valid credentials', { tag: '@smoke' }, async ({ page }) => { ... });
 > ```
 
-### 📂 Projects (Coming Soon)
+### 📂 Projects
 
-We plan to add dedicated **projects** to the Playwright configuration to differentiate between **UI tests** and **API tests**, allowing independent execution of each layer:
+The Playwright configuration already defines separate projects for **UI/e2e tests** and **API tests**:
 
 ```bash
-# Run only UI tests (coming soon)
-npx playwright test --project=ui
+npm run test:ui
 
-# Run only API tests (coming soon)
-npx playwright test --project=api
+npm run test:api
 ```
 
-This section will be updated once the project configuration is in place.
+If you want to run Playwright directly, the current project names are:
+
+```bash
+npx playwright test --project=e2e-chromium
+npx playwright test --project=api
+```
 
 Generate HTML test report:
 
