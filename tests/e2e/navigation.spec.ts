@@ -1,8 +1,8 @@
-import { test, expect } from '../fixtures/baseFixture';
-import { CartPage } from '../pages/CartPage';
-import { InventoryPage } from '../pages/InventoryPage';
-import { NavigationMenu } from '../pages/NavigationMenu';
-import { loginData } from '../data/loginData';
+import { test, expect } from '../../fixtures/baseFixture';
+import { CartPage } from '../../pages/CartPage';
+import { InventoryPage } from '../../pages/InventoryPage';
+import { NavigationMenu } from '../../pages/NavigationMenu';
+import { loginData } from '../../data/loginData';
 
 test.describe('Sauce demo navigation test', () => {
     test.beforeEach(async ({ loginPage, page }) => {

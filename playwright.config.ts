@@ -39,7 +39,7 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
+    /*{
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
@@ -47,13 +47,22 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+    },*/
+    {
+      name: 'e2e-chromium',
+      testDir: './tests/e2e',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'api',
+      testDir: './tests/api',
     },
 
     //Test against mobile viewports. 
-     {
-       name: 'Mobile Chrome',
-       use: { ...devices['Pixel 5'] },
-     },
+    // {
+    //  name: 'Mobile Chrome',
+    //  use: { ...devices['Pixel 5'] },
+    // },
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
