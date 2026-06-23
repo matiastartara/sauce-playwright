@@ -59,10 +59,13 @@ test.describe('Sauce demo checkout test', () => {
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.addRandomProductToCart();
 
-    expect(await inventoryPage.isCartBadgeVisible()).toBeTruthy();
-    expect(await inventoryPage.getCartBadgeCount()).toBe(1);
+    const cartBadgeVisible = await inventoryPage.isCartBadgeVisible();
+    const cartBadgeCount = await inventoryPage.getCartBadgeCount()
+    
+    expect(cartBadgeVisible).toBeTruthy();
+    expect(cartBadgeCount).toBe(1);
     await page.reload();
-    expect(await inventoryPage.isCartBadgeVisible()).toBeTruthy();
-    expect(await inventoryPage.getCartBadgeCount()).toBe(1);
+    expect(cartBadgeVisible).toBeTruthy();
+    expect(cartBadgeCount).toBe(1);
   });
 });
