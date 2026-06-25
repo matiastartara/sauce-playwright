@@ -30,6 +30,8 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL,
     trace: 'on-first-retry',
+    video: 'off',
+    screenshot: 'off',
   },
 
   /* Configure projects for major browsers */
