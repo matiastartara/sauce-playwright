@@ -1,0 +1,2 @@
+Added product: Test.allTheThings() T-Shirt (Red) with price: $15.99
+Product in the cart: Test.allTheThings() T-Shirt (Red) with price: $15.99
