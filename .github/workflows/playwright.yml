@@ -1,4 +1,5 @@
 name: Playwright Tests
+
 on:
   push:
     branches: [ main, master ]
@@ -8,27 +9,116 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+# Required to push to gh-pages branch
+permissions:
+  contents: write
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     environment: Dev
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v6
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      env:
-        BASE_URL: ${{ vars.BASE_URL }}
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      # ── Fetch previous Allure history from gh-pages (for trend charts) ──────
+      - name: Fetch gh-pages history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # ── E2E Tests ─────────────────────────────────────────────────────────────
+      - name: Run E2E tests (Chromium)
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+        run: npx playwright test --project=e2e-chromium
+
+      - name: Restore E2E Allure history
+        if: always()
+        continue-on-error: true
+        run: |
+          mkdir -p allure-results/history
+          cp -r gh-pages/e2e/history/. allure-results/history/ 2>/dev/null || true
+
+      - name: Generate E2E Allure Report
+        if: always()
+        run: npx allure generate allure-results --clean -o allure-report-e2e
+
+      # ── API Tests ─────────────────────────────────────────────────────────────
+      - name: Clear allure-results before API tests
+        if: always()
+        run: rm -rf allure-results
+
+      - name: Run API tests
+        if: always()
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+        run: npx playwright test --project=api
+
+      - name: Restore API Allure history
+        if: always()
+        continue-on-error: true
+        run: |
+          mkdir -p allure-results/history
+          cp -r gh-pages/api/history/. allure-results/history/ 2>/dev/null || true
+
+      - name: Generate API Allure Report
+        if: always()
+        run: npx allure generate allure-results --clean -o allure-report-api
+
+      # ── Deploy to GitHub Pages (only on push to main/master) ─────────────────
+      - name: Deploy E2E Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: always() && github.event_name == 'push'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report-e2e
+          destination_dir: e2e
+          keep_files: true
+
+      - name: Deploy API Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: always() && github.event_name == 'push'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report-api
+          destination_dir: api
+          keep_files: true
+
+      # ── Upload artifacts (available on PRs too) ───────────────────────────────
+      - name: Upload Playwright HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload E2E Allure Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report-e2e
+          path: allure-report-e2e/
+          retention-days: 30
+
+      - name: Upload API Allure Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report-api
+          path: allure-report-api/
+          retention-days: 30

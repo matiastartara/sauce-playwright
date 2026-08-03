@@ -116,7 +116,12 @@ npx playwright test --grep @regression
 
 ### 📂 Projects
 
-The Playwright configuration already defines separate projects for **UI/e2e tests** and **API tests**:
+The Playwright configuration defines separate projects for **UI/e2e tests** and **API tests**. The npm scripts below automatically **delete `allure-results/` before each run** to ensure the Allure report only contains results from the current execution (Allure accumulates results across runs if the folder is not cleared):
+
+| Command | Description |
+|---------|-------------|
+| `npm run test:ui` | Clears `allure-results/`, then runs E2E tests in Chromium (`e2e-chromium` project) |
+| `npm run test:api` | Clears `allure-results/`, then runs API tests (`api` project) |
 
 ```bash
 npm run test:ui
@@ -124,7 +129,7 @@ npm run test:ui
 npm run test:api
 ```
 
-If you want to run Playwright directly, the current project names are:
+If you want to run Playwright directly (without clearing the results folder):
 
 ```bash
 npx playwright test --project=e2e-chromium
@@ -137,18 +142,62 @@ Generate HTML test report:
 npx playwright show-report
 ```
 
-Generate Allure test report:
+### 📊 Allure Reports
+
+After running the tests, use these commands to generate and view the Allure report locally:
+
+| Command | Description |
+|---------|-------------|
+| `npm run allure:generate` | Generates the static HTML report from `allure-results/` into the `allure-report/` folder |
+| `npm run allure:open` | Opens the previously generated static report in the browser |
+| `npm run allure:report` | Generates and immediately opens the report (combines the two above) |
 
 ```bash
-# Serve and open the Allure report immediately:
-npx allure serve allure-results
+# Generate and open the Allure report in one step:
+npm run allure:report
 
-# Or generate the static HTML report folder:
-npx allure generate allure-results --clean -o allure-report
-
-# Open the generated static Allure report:
-npx allure open allure-report
+# Or step by step:
+npm run allure:generate
+npm run allure:open
 ```
+
+> [!NOTE]
+> If you open the Allure report and see results from multiple browsers or past runs, it means `allure-results/` was not cleared before the last execution. Always use `npm run test:ui` or `npm run test:api` instead of running `npx playwright test` directly to avoid this.
+
+### 🌐 Live Allure Reports (GitHub Pages)
+
+Every push to `main`/`master` automatically publishes the Allure reports to **GitHub Pages**:
+
+| Project | URL |
+|---------|-----|
+| E2E (Chromium) | `https://<your-username>.github.io/<your-repo>/e2e/` |
+| API | `https://<your-username>.github.io/<your-repo>/api/` |
+
+The reports include **trend charts** and **history** — each new run preserves the results from previous executions so you can track pass/fail evolution over time.
+
+#### ⚙️ One-time GitHub configuration required
+
+Before the first push, do these two things in your repository settings:
+
+**1. Enable GitHub Pages**
+
+Go to **Settings → Pages** and set:
+- Source: `Deploy from a branch`
+- Branch: `gh-pages` / `/ (root)`
+
+> [!IMPORTANT]
+> The `gh-pages` branch is created automatically by the workflow on the first push. If you don't see it yet in the dropdown, run the workflow once first, then come back and set this.
+
+**2. Enable workflow write permissions**
+
+Go to **Settings → Actions → General → Workflow permissions** and select:
+- ✅ `Read and write permissions`
+- Click **Save**
+
+This allows the workflow to push the generated report to the `gh-pages` branch.
+
+> [!NOTE]
+> GitHub Pages is **free for public repositories**. For private repositories it requires a GitHub Pro or Team plan.
 
 ## 🐳 Docker
 
