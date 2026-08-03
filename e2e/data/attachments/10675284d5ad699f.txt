@@ -1,0 +1,2 @@
+Initial cart count: 1
+Final cart count after removal: 0
