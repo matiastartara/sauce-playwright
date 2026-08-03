@@ -1,0 +1,14 @@
+[
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "Mocked title",
+    "body": "This is a mocked response body for testing purposes."
+  },
+  {
+    "userId": 1,
+    "id": 2,
+    "title": "Second mocked post",
+    "body": "Another fake post body."
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "title": "Test Post",
+  "body": "This is a test post created for QA practice purposes.",
+  "userId": 1,
+  "id": 101
+}
