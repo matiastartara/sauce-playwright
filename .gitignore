@@ -11,4 +11,6 @@ node_modules/
 # Allure
 /allure-results/
 /allure-report/
+/allure-report-e2e/
+/allure-report-api/
 
