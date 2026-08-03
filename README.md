@@ -170,8 +170,8 @@ Every push to `main`/`master` automatically publishes the Allure reports to **Gi
 
 | Project | URL |
 |---------|-----|
-| E2E (Chromium) | `https://matiastartara.github.io/sauce-playwright/e2e/` |
-| API | `https://matiastartara.github.io/sauce-playwright/api/` |
+| E2E (Chromium) | [https://matiastartara.github.io/sauce-playwright/e2e/](https://matiastartara.github.io/sauce-playwright/e2e/) |
+| API | [https://matiastartara.github.io/sauce-playwright/api/](https://matiastartara.github.io/sauce-playwright/api/) |
 
 The reports include **trend charts** and **history** — each new run preserves the results from previous executions so you can track pass/fail evolution over time.
 
