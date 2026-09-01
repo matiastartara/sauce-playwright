@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.60.0",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^25.9.3",
     "allure-commandline": "^2.42.1",
     "allure-playwright": "^3.10.0",
