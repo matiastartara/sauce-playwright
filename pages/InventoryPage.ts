@@ -5,12 +5,38 @@ export class InventoryPage extends BasePage {
   readonly inventoryItems: Locator;
   readonly addToCartButton: Locator;
   readonly cartBadge: Locator;
+  readonly sortContainer: Locator;
+  readonly itemPrices: Locator;
+  readonly itemNames: Locator;
 
   constructor(page: Page) {
     super(page);
     this.inventoryItems = page.locator('[data-test="inventory-item"]');
     this.addToCartButton = page.locator('[data-test="shopping-cart-link"]');
     this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
+    this.sortContainer = page.locator('[data-test="product-sort-container"]');
+    this.itemPrices = page.locator('[data-test="inventory-item-price"]');
+    this.itemNames = page.locator('[data-test="inventory-item-name"]');
+  }
+
+  async sortByPriceLowToHigh() {
+    await this.sortContainer.selectOption({ label: 'Price (low to high)' });
+  }
+
+  async sortByPriceHighToLow() {
+    await this.sortContainer.selectOption({ label: 'Price (high to low)' });
+  }
+
+  async sortByItemNameAToZ() {
+    await this.sortContainer.selectOption({ label: 'Name (A to Z)' });
+  }
+
+  async getItemPrices() {
+    return await this.itemPrices.allInnerTexts();
+  }
+ 
+  async getItemNames() {
+    return await this.itemNames.allInnerTexts();
   }
 
   async isCartBadgeVisible() {
@@ -32,7 +58,7 @@ export class InventoryPage extends BasePage {
   async addProductToCart(index: number): Promise<{ name: string; price: string }> {
     const randomItem = this.inventoryItems.nth(index);
     const name = await randomItem.locator('[data-test="inventory-item-name"]').innerText();
-    const price = await randomItem.locator('[data-test="inventory-item-price"]').innerText();
+    const price = await randomItem.locator(this.itemPrices).innerText();
     const addButton = randomItem.locator('[data-test^="add-to-cart-"]');
     await addButton.click();
     return { name, price };
