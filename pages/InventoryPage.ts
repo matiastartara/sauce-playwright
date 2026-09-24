@@ -45,6 +45,8 @@ export class InventoryPage extends BasePage {
 
   async navigateToCart() {
     await this.addToCartButton.click();
+    await this.page.waitForURL(/cart\.html/);
+    await this.page.locator('[data-test="cart-list"]').waitFor();
   }
 
   async getCartBadgeCount(): Promise<number> {

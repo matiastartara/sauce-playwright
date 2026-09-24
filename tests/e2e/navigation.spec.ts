@@ -26,7 +26,8 @@ test.describe('Sauce demo navigation test', () => {
 
         await inventoryPage.addRandomProductToCart();
         await inventoryPage.navigateToCart();
-        await expect(cartPage.cartItems).toBeVisible();
+        await expect(page).toHaveURL(/cart.html/);
+        await expect(cartPage.cartItems).toHaveCount(1);
         await navigationMenu.openMenu();
         await navigationMenu.navigateToAllItems();
         await expect(inventoryPage.inventoryItems).toHaveCount(6);
