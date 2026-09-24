@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","451","POST - Create new post","api","2026-09-24","passed","2026-09-24","","api/api.spec.ts","",""
+"","50","GET - Get character profile","api","2026-09-24","passed","2026-09-24","","api/api.spec.ts","",""
+"","535","GET - Get character list","api","2026-09-24","passed","2026-09-24","","api/api.spec.ts","",""
+"","94","Mocked GET - Posts list returns fake data","api","2026-09-24","passed","2026-09-24","","api/api.spec.ts","",""
+"","56","Mocked error - Posts endpoint returns 500","api","2026-09-24","passed","2026-09-24","","api/api.spec.ts","",""
