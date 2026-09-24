@@ -10,7 +10,7 @@ export class CartPage extends BasePage {
     super(page);
     this.checkoutButton = page.locator('[data-test="checkout"]');
     this.removeBtns = page.locator('[data-test^="remove"]');
-    this.cartItems = page.locator('[data-test="inventory-item"]');
+    this.cartItems = page.locator('[data-test="cart-list"] [data-test="inventory-item"]');
   }
 
   async removeItem(index: number) {
