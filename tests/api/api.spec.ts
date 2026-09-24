@@ -3,7 +3,6 @@ import { resolve } from 'node:path';
 import { test, expect } from '@playwright/test';
 import { z } from 'zod';
 
-
 const LocationSchema = z.object({
   name: z.string(),
   url: z.string().url(),
@@ -28,39 +27,35 @@ const createPostBody = JSON.parse(
   readFileSync(resolve(process.cwd(), 'data/api/create-post.json'), 'utf-8'),
 );
 
-test('GET - Get character list', async () => {
-  const response = await fetch('https://rickandmortyapi.com/api/character');
+test('GET - Get character list', async ({ request }) => {
+  const response = await request.get('https://rickandmortyapi.com/api/character');
+  expect(response.status()).toBe(200);
   const data = await response.json();
   expect(data.results.length).toBeGreaterThan(0);
 });
 
-test('GET - Get character profile', async () => {
-  const response = await fetch('https://rickandmortyapi.com/api/character/1');
+test('GET - Get character profile', async ({ request }) => {
+  const response = await request.get('https://rickandmortyapi.com/api/character/1');
+  expect(response.status()).toBe(200);
   const data = await response.json();
+
   expect(data.id).toBe(1);
   expect(data.name).toBe('Rick Sanchez');
   expect(data.gender).toBe('Male');
   expect(data.species).toBe('Human');
   expect(data.origin.name).toBe('Earth (C-137)');
   expect(data.location.name).toBe('Citadel of Ricks');
-
-  //console.log(data);
   expect(() => CharacterSchema.parse(data)).not.toThrow();
 });
 
-test('POST - Create new post', async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(createPostBody),
+test('POST - Create new post', async ({ request }) => {
+  const response = await request.post('https://jsonplaceholder.typicode.com/posts', {
+    data: createPostBody,
   });
 
+  expect(response.status()).toBe(201);
   const data = await response.json();
-  console.log(JSON.stringify(data, null, 2));
 
-  expect(response.status).toBe(201);
   expect(data.title).toBe(createPostBody.title);
   expect(data.body).toBe(createPostBody.body);
   expect(data.userId).toBe(createPostBody.userId);
@@ -68,7 +63,6 @@ test('POST - Create new post', async () => {
 });
 
 test('Mocked GET - Posts list returns fake data', async ({ page }) => {
-  // Interceptamos la llamada antes de que llegue al servidor real
   await page.route('https://jsonplaceholder.typicode.com/posts', async (route) => {
     const fakeResponse = [
       {
@@ -96,8 +90,6 @@ test('Mocked GET - Posts list returns fake data', async ({ page }) => {
     const res = await fetch('https://jsonplaceholder.typicode.com/posts');
     return res.json();
   });
-
-  console.log(JSON.stringify(response, null, 2));
 
   expect(response).toHaveLength(2);
   expect(response[0].title).toBe('Mocked title');
